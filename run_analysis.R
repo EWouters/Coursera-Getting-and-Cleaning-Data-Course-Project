@@ -31,16 +31,16 @@ rm(X_test, X_train)
 
 # Filter columns with mean() and std()
 features <- unlist(features[,2])
-mscols <- grep("mean()|std()", features)
+mscols <- grep("mean\\(\\)|std\\(\\)", features)
 dt <- select(dt, mscols)
 
 # Add names of columns in X_test
 colnames(dt) <- features[mscols]
 rm(features)
 
-# Add activity labels for the y variable and subject to data.table
-dt[,Activity := activity_labels[[2]][unlist(rbind(y_test, y_train))]]
+# Add subject, activity and variable type to data.table
 dt[,Subject := rbind(subject_test, subject_train)]
+dt[,Activity := activity_labels[[2]][unlist(rbind(y_test, y_train))]]
 dt[,VariableType := c(rep_len("test", dim(subject_test)[1]), rep_len("train", dim(subject_train)[1]))]
 rm(y_test, y_train, subject_test, subject_train)
 
@@ -74,9 +74,12 @@ if (inertialsignals) {
 }
 
 # Aggregate means of variables over Activity and Subject
-sdt <- aggregate(dt[, 1:(dim(dt)[2]-3)], list(dt$Activity, dt$Subject), mean)
+sdt <- aggregate(dt[, 1:(dim(dt)[2] - 3)], list(dt$Subject, dt$Activity), mean)
 colnames(sdt)[c(1,2)] <- c("Subject", "Activity")
 
 # Write data to file
 write.table(dt, "tidydata.csv", row.names = F, sep = ",")
-write.table(sdt, "summerytidydata.csv", row.names = F, sep = ",")
+write.table(sdt, "summarytidydata.csv", row.names = F, sep = ",")
+
+# Write feature names to .md file:
+write.table(names(dt), "features.md", row.names = F, col.names = F, sep = "\n")
