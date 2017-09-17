@@ -35,7 +35,7 @@ The set of variables that were estimated from these signals are:
 - mean(): Mean value
 - std(): Standard deviation
 
-Only these variables were kept for each feature.
+Only these estimated variables were kept for each feature.
 
 Additionally these features were added:
 
