@@ -78,8 +78,8 @@ sdt <- aggregate(dt[, 1:(dim(dt)[2] - 3)], list(dt$Subject, dt$Activity), mean)
 colnames(sdt)[c(1,2)] <- c("Subject", "Activity")
 
 # Write data to file
-write.table(dt, "tidydata.csv", row.names = F, sep = ",")
-write.table(sdt, "summarytidydata.csv", row.names = F, sep = ",")
+write.table(dt, "tidydata.txt", row.names = F)
+write.table(sdt, "summarytidydata.txt", row.names = F)
 
 # Write feature names to .md file:
 writeLines(unlist(lapply(names(dt), function(x) {paste("- ", x)})), "features.md")
