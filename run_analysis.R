@@ -82,4 +82,4 @@ write.table(dt, "tidydata.csv", row.names = F, sep = ",")
 write.table(sdt, "summarytidydata.csv", row.names = F, sep = ",")
 
 # Write feature names to .md file:
-write.table(names(dt), "features.md", row.names = F, col.names = F, sep = "\n -")
+writeLines(unlist(lapply(names(dt), function(x) {paste("- ", x)})), "features.md")
